@@ -1,6 +1,7 @@
 package com.epam.binary_tree_map;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -61,7 +62,23 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
 
     @Override
     public V get(Object key) {
-        return null;
+        try {
+            Comparable<? super K> cKey = (Comparable<? super K>) key;
+            Node<K, V> node = root;
+            while (node != null) {
+                int compResult = cKey.compareTo(node.key);
+                if (compResult < 0) {
+                    node = node.left;
+                } else if (compResult > 0) {
+                    node = node.right;
+                } else {
+                    return node.value;
+                }
+            }
+            return null;
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     @Override
