@@ -82,6 +82,34 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
 
     @Override
     public V put(K key, V value) {
+        Node<K, V> parent;
+        Node<K, V> tempParrent;
+        if (root == null) {
+            root = new Node<>(key, value);
+        } else {
+            tempParrent = root;
+            int compResult;
+            do {
+                parent = tempParrent;
+                compResult = key.compareTo(tempParrent.key);
+                if (compResult < 0) {
+                    tempParrent = tempParrent.left;
+                } else if (compResult > 0) {
+                    tempParrent = tempParrent.right;
+                } else {
+                    V oldValue = tempParrent.value;
+                    tempParrent.value = value;
+                    return oldValue;
+                }
+            } while (tempParrent != null);
+
+            if (compResult < 0) {
+                parent.left = new Node<>(key, value);
+            } else if (compResult > 0) {
+                parent.right = new Node<>(key, value);
+            }
+        }
+        size++;
         return null;
     }
 
@@ -97,7 +125,7 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
 
     @Override
     public void clear() {
-
+     
     }
 
     @Override
@@ -114,6 +142,8 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
             runTreeForKeySet(entryRoot.right,set);
         }
     }
+
+
 
     @Override
     public Collection<V> values() {
