@@ -38,6 +38,11 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
             this.value = value;
             return oldValue;
         }
+
+        @Override
+        public String toString() {
+            return "[" + key + ":" + value + "]";
+        }
     }
 
     @Override
@@ -120,7 +125,7 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
         Node<K, V> removingNode = root;
         Node<K, V> parent = root;
         Node<K, V> parentForChild = null;
-        Node<K, V> childNode = null;
+        Node<K, V> childNode;
         if (root == null) {
             return null;
         } else {
@@ -219,7 +224,6 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
         }
     }
 
-
     @Override
     public Collection<V> values() {
         return null;
@@ -239,4 +243,5 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
             runTreeForEntrySet(entryRoot.right, set);
         }
     }
+
 }
