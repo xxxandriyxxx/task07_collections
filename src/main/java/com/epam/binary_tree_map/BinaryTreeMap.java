@@ -21,7 +21,6 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
             this.key = key;
             this.value = value;
         }
-
         @Override
         public K getKey() {
             return key;
@@ -103,7 +102,17 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
 
     @Override
     public Set<K> keySet() {
-        return null;
+        Set<K> set = new HashSet<>();
+        runTreeForKeySet(root,set);
+        return set;
+    }
+
+    private void runTreeForKeySet(Node<K,V> entryRoot, Set<K> set){
+        if(entryRoot != null){
+            runTreeForKeySet(entryRoot.left,set);
+            set.add(entryRoot.getKey());
+            runTreeForKeySet(entryRoot.right,set);
+        }
     }
 
     @Override
@@ -113,6 +122,16 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
 
     @Override
     public Set<Entry<K, V>> entrySet() {
-        return null;
+        Set<Entry<K, V>> set = new HashSet<>();
+        runTreeForEntrySet(root,set);
+        return set;
+    }
+
+    private void runTreeForEntrySet(Node<K,V> entryRoot, Set<Entry<K, V>> set){
+        if(entryRoot != null){
+            runTreeForEntrySet(entryRoot.left,set);
+            set.add(entryRoot);
+            runTreeForEntrySet(entryRoot.right,set);
+        }
     }
 }
