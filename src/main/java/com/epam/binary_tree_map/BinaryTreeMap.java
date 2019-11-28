@@ -58,7 +58,7 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
     @Override
     public boolean containsKey(Object key) {
         K castKey = (K) key;
-        return runTreeForKey(root, castKey,false);
+        return runTreeForKey(root, castKey, false);
     }
 
     private boolean runTreeForKey(Node<K, V> entryRoot, K key, boolean contains) {
@@ -75,20 +75,19 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
     @Override
     public boolean containsValue(Object value) {
         V castValue = (V) value;
-        return runTreeForValues(root, castValue,false);
+        return runTreeForValues(root, castValue, false);
     }
 
     private boolean runTreeForValues(Node<K, V> entryRoot, V value, boolean contains) {
         if (entryRoot != null && !contains) {
-                contains = runTreeForValues(entryRoot.left, value, contains);
-                if (entryRoot.getValue().equals(value)) {
-                    contains = true;
-                }
-                contains = runTreeForValues(entryRoot.right, value, contains);
+            contains = runTreeForValues(entryRoot.left, value, contains);
+            if (entryRoot.getValue().equals(value)) {
+                contains = true;
+            }
+            contains = runTreeForValues(entryRoot.right, value, contains);
         }
         return contains;
     }
-
 
     @Override
     public V get(Object key) {
@@ -218,7 +217,6 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
         }
     }
 
-
     @Override
     public void putAll(Map<? extends K, ? extends V> m) {
 
@@ -247,7 +245,17 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
 
     @Override
     public Collection<V> values() {
-        return null;
+        Collection<V> values  = new HashSet<>();
+        runTreeForValues(root,values);
+        return values;
+    }
+    
+    private void runTreeForValues(Node<K, V> entryRoot, Collection<V> values) {
+        if (entryRoot != null) {
+            runTreeForValues(entryRoot.left, values);
+            values.add(entryRoot.getValue());
+            runTreeForValues(entryRoot.right, values);
+        }
     }
 
     @Override
