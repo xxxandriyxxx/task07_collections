@@ -168,7 +168,6 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
                     break;
                 }
             } while (true);
-
             if (removingNode.left == null && removingNode.right == null) {
                 if (removingNode == root) {
                     root = null;
