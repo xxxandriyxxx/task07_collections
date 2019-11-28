@@ -17,7 +17,7 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
         private K key;
         private V value;
 
-        public Node(K key, V value) {
+        private Node(K key, V value) {
             this.key = key;
             this.value = value;
         }
@@ -75,16 +75,16 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
     @Override
     public boolean containsValue(Object value) {
         V castValue = (V) value;
-        return runTreeForValues(root, castValue, false);
+        return runTreeForContains(root, castValue, false);
     }
 
-    private boolean runTreeForValues(Node<K, V> entryRoot, V value, boolean contains) {
+    private boolean runTreeForContains(Node<K, V> entryRoot, V value, boolean contains) {
         if (entryRoot != null && !contains) {
-            contains = runTreeForValues(entryRoot.left, value, contains);
+            contains = runTreeForContains(entryRoot.left, value, contains);
             if (entryRoot.getValue().equals(value)) {
                 contains = true;
             }
-            contains = runTreeForValues(entryRoot.right, value, contains);
+            contains = runTreeForContains(entryRoot.right, value, contains);
         }
         return contains;
     }
@@ -219,7 +219,7 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
 
     @Override
     public void putAll(Map<? extends K, ? extends V> m) {
-
+        m.forEach(this::put);
     }
 
     @Override
@@ -245,11 +245,11 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
 
     @Override
     public Collection<V> values() {
-        Collection<V> values  = new HashSet<>();
-        runTreeForValues(root,values);
+        Collection<V> values = new HashSet<>();
+        runTreeForValues(root, values);
         return values;
     }
-    
+
     private void runTreeForValues(Node<K, V> entryRoot, Collection<V> values) {
         if (entryRoot != null) {
             runTreeForValues(entryRoot.left, values);
