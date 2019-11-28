@@ -62,8 +62,21 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
 
     @Override
     public boolean containsValue(Object value) {
-        return false;
+        V castValue = (V) value;
+        return runTreeForValues(root, castValue,false);
     }
+    
+    private boolean runTreeForValues(Node<K, V> entryRoot, V value, boolean contains) {
+        if (entryRoot != null && !contains) {
+                contains = runTreeForValues(entryRoot.left, value, contains);
+                if (entryRoot.getValue().equals(value)) {
+                    contains = true;
+                }
+                contains = runTreeForValues(entryRoot.right, value, contains);
+        }
+        return contains;
+    }
+
 
     @Override
     public V get(Object key) {
@@ -117,7 +130,7 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
 
     @Override
     public V remove(Object key) {
-        K k = (K) key;
+        K castKey = (K) key;
         Node<K, V> removingNode = root;
         Node<K, V> parent = root;
         Node<K, V> parentForChild = null;
@@ -127,7 +140,7 @@ public class BinaryTreeMap<K extends Comparable, V> implements Map<K, V> {
         } else {
             int compResult;
             do {
-                compResult = k.compareTo(removingNode.key);
+                compResult = castKey.compareTo(removingNode.key);
                 if (compResult < 0) {
                     if (removingNode.left == null) {
                         return null;
